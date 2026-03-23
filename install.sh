@@ -117,8 +117,8 @@ review_dependency () {
     fi
 
     # python3
-    if ! command -v python3 &> /dev/null; then
-        echo "ERROR: Python is not installed."
+    if ! command -v python3.11 &> /dev/null; then
+        echo "ERROR: Python3.11 is not installed."
         exit 1
     fi
 
@@ -325,7 +325,7 @@ generate_build_lock
 
 install_immich_machine_learning () {
     cd $INSTALL_DIR_src/machine-learning
-    python3 -m venv $INSTALL_DIR_ml/venv
+    python3.11 -m venv $INSTALL_DIR_ml/venv
     (
     # Initiate subshell to setup venv
     . $INSTALL_DIR_ml/venv/bin/activate
@@ -344,7 +344,7 @@ install_immich_machine_learning () {
     fi
 
     # Deal with python 3.12
-    python3_version=$(python3 --version 2>&1 | awk -F' ' '{print $2}' | awk -F'.' '{print $2}')
+    python3_version=$(python --version 2>&1 | awk -F' ' '{print $2}' | awk -F'.' '{print $2}')
     if [ $python3_version = 12 ]; then
         # Allow Python 3.12 (e.g., Ubuntu 24.04)
         sed -i -e 's/<3.12/<4/g' pyproject.toml
